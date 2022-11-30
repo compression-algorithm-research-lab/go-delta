@@ -1,2 +1,6 @@
 github.com/golang-infrastructure/go-gtypes v0.0.1 h1:hnM1OYSwLPLGkZ4C6ecAxgmAUaPTjnhnUtRNmJj4p6c=
 github.com/golang-infrastructure/go-gtypes v0.0.1/go.mod h1:vFMCxFzxdMInvTtgLZRlWI1rS+mui88sMbL5I+zu1hg=
+github.com/golang-infrastructure/go-heap v0.0.2 h1:o3u5Wr8W/MO2PjtczBOEwb7HdUgK5zV12aAdp7T28IA=
+github.com/golang-infrastructure/go-heap v0.0.2/go.mod h1:crBY8pM89fprjRYrEGalpJ7xEzhD+XtxiFAuF9JnCuM=
+github.com/golang-infrastructure/go-queue v0.0.0-20221128180429-701892f44bcc h1:+i4Y16ygfCIRKnEfwSd7cfQ+KvSMx/ALePIf8wTFRuc=
+github.com/golang-infrastructure/go-queue v0.0.0-20221128180429-701892f44bcc/go.mod h1:Ype8CrMpjePHOJq+wRoIN3hx10H/WQsZ5SNvHdiSsBQ=
