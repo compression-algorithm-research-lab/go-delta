@@ -13,18 +13,29 @@ func TimeSliceDelta(timeSlice []time.Time, compareToType CompareToType) []uint64
 			continue
 		}
 		if compareToType == CompareToFirst {
-			result[index] = TimeDelta(timeSlice[index], timeSlice[0])
+			result[index] = TimeDelta(t, timeSlice[0])
 		} else if compareToType == CompareToLast {
-			result[index] = TimeDelta(timeSlice[index], timeSlice[index-1])
+			result[index] = TimeDelta(t, timeSlice[index-1])
 		}
 	}
 	return result
 }
 
 // FromTimeSliceDelta 从Time的delta恢复时间序列
-func FromTimeSliceDelta(slice []uint64, compareToType CompareToType) []time.Time {
-	// TODO
-	panic("TODO")
+func FromTimeSliceDelta(deltaSlice []uint64, compareToType CompareToType) []time.Time {
+	result := make([]time.Time, 0)
+	for index, delta := range deltaSlice {
+		if index == 0 {
+			result[index] = time.UnixMilli(int64(delta))
+			continue
+		}
+		if compareToType == CompareToFirst {
+			result[index] = time.UnixMilli(int64(deltaSlice[0] + delta))
+		} else if compareToType == CompareToLast {
+			result[index] = result[index-1].Add(time.Millisecond * time.Duration(delta))
+		}
+	}
+	return result
 }
 
 func TimeDelta(t1 time.Time, t2 time.Time) uint64 {
@@ -51,9 +62,20 @@ func TimestampSliceDelta(timestampSlice []uint64, compareToType CompareToType) [
 }
 
 // FromTimestampSliceDelta 从时间戳的delta恢复时间戳序列
-func FromTimestampSliceDelta(slice []uint64, compareToType CompareToType) []uint64 {
-	// TODO
-	panic("TODO")
+func FromTimestampSliceDelta(deltaSlice []uint64, compareToType CompareToType) []uint64 {
+	result := make([]uint64, 0)
+	for index, delta := range deltaSlice {
+		if index == 0 {
+			result[index] = delta
+			continue
+		}
+		if compareToType == CompareToFirst {
+			result[index] = deltaSlice[0] + delta
+		} else if compareToType == CompareToLast {
+			result[index] = result[index-1] + delta
+		}
+	}
+	return result
 }
 
 // ------------------------------------------------ ---------------------------------------------------------------------
