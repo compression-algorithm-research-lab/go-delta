@@ -8,21 +8,19 @@ import (
 // ZipIntegerSlice delta压缩整数，只适合正整数一般
 func ZipIntegerSlice[T gtypes.Integer](intSlice []T, compareToType CompareToType) []T {
 	deltaSlice := make([]T, len(intSlice))
-	for index, x := range intSlice {
+	for index := range intSlice {
 		if index == 0 {
-			deltaSlice[index] = x
+			deltaSlice[index] = intSlice[index]
 			continue
 		}
-		var delta T
 		switch compareToType {
 		case CompareToFirst:
-			delta = intSlice[index] - intSlice[0]
+			deltaSlice[index] = intSlice[index] - intSlice[0]
 		case CompareToLast:
-			delta = intSlice[index] - intSlice[index-1]
+			deltaSlice[index] = intSlice[index] - intSlice[index-1]
 		default:
 			panic(fmt.Errorf("not support compare type: %#v", compareToType))
 		}
-		deltaSlice[index] = delta
 	}
 	return deltaSlice
 }
@@ -35,16 +33,14 @@ func UnzipIntegerSlice[T gtypes.Integer](deltaSlice []T, compareToType CompareTo
 			intSlice[index] = delta
 			continue
 		}
-		var data T
 		switch compareToType {
 		case CompareToFirst:
-			data = deltaSlice[0] + delta
+			intSlice[index] = deltaSlice[0] + delta
 		case CompareToLast:
-			data = intSlice[index-1] + delta
+			intSlice[index] = intSlice[index-1] + delta
 		default:
 			panic(fmt.Errorf("not support compare type: %#v", compareToType))
 		}
-		intSlice[index] = data
 	}
 	return intSlice
 }
