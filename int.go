@@ -1,31 +1,50 @@
 package delta
 
-import "github.com/golang-infrastructure/go-gtypes"
+import (
+	"fmt"
+	"github.com/golang-infrastructure/go-gtypes"
+)
 
 // ZipIntegerSlice delta压缩整数，只适合正整数一般
-func ZipIntegerSlice[T gtypes.Integer](intSlice []T) []T {
-	result := make([]T, len(intSlice))
+func ZipIntegerSlice[T gtypes.Integer](intSlice []T, compareToType CompareToType) []T {
+	deltaSlice := make([]T, len(intSlice))
 	for index, x := range intSlice {
 		if index == 0 {
-			result[index] = x
+			deltaSlice[index] = x
 			continue
 		}
-		delta := intSlice[index-1] - intSlice[index]
-		result[index] = delta
+		var delta T
+		switch compareToType {
+		case CompareToFirst:
+			delta = intSlice[index] - intSlice[0]
+		case CompareToLast:
+			delta = intSlice[index] - intSlice[index-1]
+		default:
+			panic(fmt.Errorf("not support compare type: %#v", compareToType))
+		}
+		deltaSlice[index] = delta
 	}
-	return result
+	return deltaSlice
 }
 
 // UnzipIntegerSlice 解压缩delta
-func UnzipIntegerSlice[T gtypes.Integer](intSlice []T) []T {
-	result := make([]T, len(intSlice))
-	for index, x := range intSlice {
+func UnzipIntegerSlice[T gtypes.Integer](deltaSlice []T, compareToType CompareToType) []T {
+	intSlice := make([]T, len(deltaSlice))
+	for index, delta := range deltaSlice {
 		if index == 0 {
-			result[index] = x
+			intSlice[index] = delta
 			continue
 		}
-		delta := result[index-1] - intSlice[index]
-		result[index] = delta
+		var data T
+		switch compareToType {
+		case CompareToFirst:
+			data = deltaSlice[0] + delta
+		case CompareToLast:
+			data = intSlice[index-1] + delta
+		default:
+			panic(fmt.Errorf("not support compare type: %#v", compareToType))
+		}
+		intSlice[index] = data
 	}
-	return result
+	return intSlice
 }
