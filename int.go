@@ -5,8 +5,8 @@ import (
 	"github.com/golang-infrastructure/go-gtypes"
 )
 
-// ZipIntegerSlice delta压缩整数，只适合正整数一般
-func ZipIntegerSlice[T gtypes.Integer](intSlice []T, compareToType CompareToType) []T {
+// ToIntegerSliceDelta delta压缩整数，只适合正整数一般
+func ToIntegerSliceDelta[T gtypes.Integer](intSlice []T, compareToType CompareToType) []T {
 	deltaSlice := make([]T, len(intSlice))
 	for index := range intSlice {
 		if index == 0 {
@@ -25,8 +25,8 @@ func ZipIntegerSlice[T gtypes.Integer](intSlice []T, compareToType CompareToType
 	return deltaSlice
 }
 
-// UnzipIntegerSlice 解压缩delta
-func UnzipIntegerSlice[T gtypes.Integer](deltaSlice []T, compareToType CompareToType) []T {
+// FromIntegerSliceDelta 解压缩delta
+func FromIntegerSliceDelta[T gtypes.Integer](deltaSlice []T, compareToType CompareToType) []T {
 	intSlice := make([]T, len(deltaSlice))
 	for index, delta := range deltaSlice {
 		if index == 0 {

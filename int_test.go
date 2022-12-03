@@ -12,10 +12,10 @@ func TestUnzipIntegerSlice(t *testing.T) {
 	}
 	//t.Log(slice)
 
-	t1 := ZipIntegerSlice(slice, CompareToLast)
+	t1 := ToIntegerSliceDelta(slice, CompareToLast)
 	//t.Log(t1)
 
-	t2 := UnzipIntegerSlice(t1, CompareToLast)
+	t2 := FromIntegerSliceDelta(t1, CompareToLast)
 	//t.Log(t2)
 
 	assert.Equal(t, slice, t2)
